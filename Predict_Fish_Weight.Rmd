@@ -16,23 +16,17 @@ output:
 ```{r include=FALSE,echo=FALSE}
 require(tigerstats)
 require(tidyverse)
+require(leaps)
 ```
 
 ## read in fishy data 
 ```{r}
-fishAll = read_csv('Fish.csv')
+fishAll= read.csv ("Fish.csv")
 ```
 
-
-# Predicting Fish Weight
-
-
-## Perch
-
 ```{r}
-perchFish = filter (fishAll, Species =='Perch')
-perchModel = lm(Weight~Length1+Length2+Length3+Height+Width,data=perchFish)
-summary.lm(perchModel)
+modelall=lm(Weight~Length1+ Length2+Length3+Height+Width,data=fishAll)
+summary.lm(modelall)
 ```
 
 ### Best Models
@@ -40,6 +34,22 @@ summary.lm(perchModel)
 We find the best models for all three species 
 
 ### Best Two regressor model
+## Perch 
+
+```{r}
+library(leaps)
+perch.out <-
+    regsubsets(Weight~Length1+ Length2+Length3+Height+Width,
+               data = perchFish,
+               nbest = 1,       # 1 best model for each number of predictors
+               nvmax = NULL,    # NULL for no limit on number of variables
+               force.in = NULL, force.out = NULL,
+               method = "exhaustive")
+
+library(car)
+subsets(perch.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2")
+```
+The best two variable predictors are Height and Width.
 
 ```{r}
 #best model
@@ -58,7 +68,29 @@ summary.lm(pikeModel)
 ### Best Models
 
 
+
 ### Best Two regressor model
+```{r}
+library(leaps)
+pike.out <-
+    regsubsets(Weight~Length1+ Length2+Length3+Height+Width,
+               data = pikeFish,
+               nbest = 1,       # 1 best model for each number of predictors
+               nvmax = NULL,    # NULL for no limit on number of variables
+               force.in = NULL, force.out = NULL,
+               method = "exhaustive")
+
+summary.out <- summary(pike.out)
+library(car)
+subsets(pike.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2")
+```
+The best two variable predictor for Pike is Length1 and Length3
+
+
+```{r}
+pike2=lm(Weight~Length1+Length2,data=pikeFish)
+summary.lm(pike2)
+```
 
 ## Roach
 
@@ -67,3 +99,4 @@ summary.lm(pikeModel)
 ### Best Two regressor model
 
 ## Final Summary Statements
+We did the best two variable predictor for Pike, Perch and Roach. xxx had the largest R-squared.
