@@ -28,15 +28,17 @@ fishAll= read.csv ("Fish.csv")
 modelall=lm(Weight~Length1+ Length2+Length3+Height+Width,data=fishAll)
 summary.lm(modelall)
 ```
-
+In this chart it states adjusted R-squared value for ALLfish is 0.8815.
 ### Best Models
 
 We find the best models for all three species 
 
 ### Best Two regressor model
+
 ## Perch 
 
 ```{r}
+perchFish=filter(fishAll,Species=="Perch")
 library(leaps)
 perch.out <-
     regsubsets(Weight~Length1+ Length2+Length3+Height+Width,
@@ -56,7 +58,7 @@ The best two variable predictors are Height and Width.
 perchBest2= lm(Weight~Height+Width, data = perchFish)
 summary.lm(perchBest2)
 ```
-
+In this table it shows the adjusted r-squared value for perch fish is 0.94.
 ## Pike
 
 ```{r}
@@ -64,7 +66,7 @@ pikeFish = filter (fishAll, Species =='Pike')
 pikeModel = lm(Weight~Length1+Length2+Length3+Height+Width,data=pikeFish)
 summary.lm(pikeModel)
 ```
-
+In this chart the adjusted R-squared value for pike fish is 0.9794.
 ### Best Models
 
 
@@ -91,12 +93,33 @@ The best two variable predictor for Pike is Length1 and Length3
 pike2=lm(Weight~Length1+Length2,data=pikeFish)
 summary.lm(pike2)
 ```
-
+The adjusted r-squared for roach fish is 0.9558.
 ## Roach
+```{r}
+roach2=lm(Weight~Length1+Length2,data=roachFish)
+summary.lm(roach2)
+```
 
 ### Best Models
 
+
 ### Best Two regressor model
+```{r}
+library(leaps)
+roach.out <-
+    regsubsets(Weight~Length1+ Length2+Length3+Height+Width,
+               data = roachFish,
+               nbest = 1,       # 1 best model for each number of predictors
+               nvmax = NULL,    # NULL for no limit on number of variables
+               force.in = NULL, force.out = NULL,
+               method = "exhaustive")
+
+summary.out <- summary(pike.out)
+library(car)
+subsets(roach.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2")
+```
+
+The best two predictor variables for Roach is Length3 and Width. 
 
 ## Final Summary Statements
-We did the best two variable predictor for Pike, Perch and Roach. xxx had the largest R-squared.
+We did the best two variable predictor for Pike, Perch and Roach. PikeFish had the largest R-squared with a value of 0.9794.
