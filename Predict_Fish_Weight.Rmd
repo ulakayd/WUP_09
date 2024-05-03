@@ -39,23 +39,23 @@ We find the best models for all three species
 
 ```{r}
 perchFish = filter (fishAll, Species =='Perch')
-perchModel = lm(Weight~Length1+Length2+Length3+Height+Width,data=perchFish)
-summary.lm(perchModel)
+perch2 = lm(Weight~Length1+Length2+Length3+Height+Width,data=perchFish)
+summary.lm(perch2)
 ```
 The best two variable predictors are Height and Width.
 
 ```{r}
 #best model
-perchModel= lm(Weight~Height+Width, data = perchFish)
-summary.lm(perchModel)
+perchFish= lm(Weight~Height+Width, data = perchFish)
+summary.lm(perch2)
 ```
 In this table it shows the adjusted r-squared value for perch fish is 0.94.
 ## Pike
 
 ```{r}
 pikeFish = filter (fishAll, Species =='Pike')
-pikeModel = lm(Weight~Length1+Length2+Length3+Height+Width,data=pikeFish)
-summary.lm(pikeModel)
+pike2 = lm(Weight~Length1+Length2+Length3+Height+Width,data=pikeFish)
+summary.lm(pike2)
 ```
 In this chart the adjusted R-squared value for pike fish is 0.9794.
 ### Best Models
