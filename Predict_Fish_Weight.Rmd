@@ -38,25 +38,16 @@ We find the best models for all three species
 ## Perch 
 
 ```{r}
-perchFish=filter(fishAll,Species=="Perch")
-library(leaps)
-perch.out <-
-    regsubsets(Weight~Length1+ Length2+Length3+Height+Width,
-               data = perchFish,
-               nbest = 1,       # 1 best model for each number of predictors
-               nvmax = NULL,    # NULL for no limit on number of variables
-               force.in = NULL, force.out = NULL,
-               method = "exhaustive")
-
-library(car)
-subsets(perch.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2")
+perchFish = filter (fishAll, Species =='Perch')
+perchModel = lm(Weight~Length1+Length2+Length3+Height+Width,data=perchFish)
+summary.lm(perchModel)
 ```
 The best two variable predictors are Height and Width.
 
 ```{r}
 #best model
-perchBest2= lm(Weight~Height+Width, data = perchFish)
-summary.lm(perchBest2)
+perchModel= lm(Weight~Height+Width, data = perchFish)
+summary.lm(perchModel)
 ```
 In this table it shows the adjusted r-squared value for perch fish is 0.94.
 ## Pike
