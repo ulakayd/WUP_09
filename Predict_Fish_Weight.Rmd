@@ -96,9 +96,12 @@ summary.lm(pike2)
 The adjusted r-squared for roach fish is 0.9558.
 ## Roach
 ```{r}
+roachFish = filter (fishAll, Species =='Roach')
 roach2=lm(Weight~Length1+Length2,data=roachFish)
 summary.lm(roach2)
 ```
+
+This table shows the adjusted r-squared for roach fish is 0.8162.
 
 ### Best Models
 
@@ -114,7 +117,7 @@ roach.out <-
                force.in = NULL, force.out = NULL,
                method = "exhaustive")
 
-summary.out <- summary(pike.out)
+summary.out <- summary(roach.out)
 library(car)
 subsets(roach.out,statistic="adjr2",legend="bottomright",main="Adjusted R^2")
 ```
